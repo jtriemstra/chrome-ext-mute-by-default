@@ -107,12 +107,16 @@ const DOMAIN_TO_MUTE_KEY = "com.joeltriemstra.mutebydefault.domainsToMute";
 
 document.addEventListener('DOMContentLoaded', () => {
 	chrome.storage.local.get(DOMAIN_TO_MUTE_KEY, function(domainData){
-		var domains = domainData.domains || [];
+		console.log("getting");
+		console.log(domainData);
+		var domains = domainData[DOMAIN_TO_MUTE_KEY] || [];
 		for (var i=0; i<domains.length; i++)
 		{
+			console.log(domains[i]);
 			var option = document.createElement("option");
 			option.text = option.value = domains[i];
 			document.getElementById("currentDomains").add(option);
+			
 		}		
 	});
 	
@@ -123,7 +127,18 @@ document.addEventListener('DOMContentLoaded', () => {
 	addButton.addEventListener("click", () => {
 		var option = document.createElement("option");
 		option.text = option.value = newDomainBox.value;
-		document.getElementById("currentDomains").add(option);
+		var dropdown = document.getElementById("currentDomains");
+		dropdown.add(option);
+		
+		var domains = [];
+		for (var i=0; i<dropdown.options.length; i++)
+		{
+			console.log("adding " + dropdown.options[i].text);
+			domains.push(dropdown.options[i].text);
+		}
+		console.log("saving");
+		console.log(domains);
+		chrome.storage.local.set({[DOMAIN_TO_MUTE_KEY]:domains}, function(){console.log(chrome.runtime.lastError);});
 	});
 	
 	removeButton.addEventListener("click", () => {
