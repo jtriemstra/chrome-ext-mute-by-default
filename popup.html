@@ -6,7 +6,7 @@
  -->
 <html>
   <head>
-    <title>Getting Started Extension's Popup</title>
+    <title>Mute By Default Popup</title>
     <style type="text/css">
       body {
         margin: 10px;
@@ -34,16 +34,16 @@
   </head>
 
   <body>
-    <h1>Background Color Changer gsd gsdf sdfg err gsegr sdf gersdfg cv rrdg se rr gsedfgsdg sdrg sdfg  </h1>
-    <div id="container">
-      <span>Choose a color</span>
-      <select id="dropdown">
-        <option selected disabled hidden value=''></option>
-        <option value="white">White</option>
-        <option value="blue">Blue</option>
-        <option value="green">Green</option>
-        <option value="yellow">Yellow</option>
-      </select>
-    </div>
+    <h1>Mute By Default</h1>
+    <form id="addDomainContainer">
+      <span>Enter a domain</span>
+      <input type="text" name="newDomain" id="newDomain" />
+	  <input type="button" value="Add Domain" id="addDomain" />
+    </form>
+	<form id="removeDomainContainer">
+      <span>Currently muting domains:</span>
+      <select id="currentDomains"></select>
+	  <input type="button" value="Remove Domain" id="removeDomain" />
+    </form>
   </body>
 </html>

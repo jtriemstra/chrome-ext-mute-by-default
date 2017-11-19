@@ -103,8 +103,34 @@ function saveBackgroundColor(url, color) {
 // to a document's origin. Also, using chrome.storage.sync instead of
 // chrome.storage.local allows the extension data to be synced across multiple
 // user devices.
+const DOMAIN_TO_MUTE_KEY = "com.joeltriemstra.mutebydefault.domainsToMute";
+
 document.addEventListener('DOMContentLoaded', () => {
-  getCurrentTabUrl((url) => {
+	chrome.storage.local.get(DOMAIN_TO_MUTE_KEY, function(domainData){
+		var domains = domainData.domains || [];
+		for (var i=0; i<domains.length; i++)
+		{
+			var option = document.createElement("option");
+			option.text = option.value = domains[i];
+			document.getElementById("currentDomains").add(option);
+		}		
+	});
+	
+	var addButton = document.getElementById("addDomain");
+	var removeButton = document.getElementById("removeDomain");
+	var newDomainBox = document.getElementById("newDomain");
+	
+	addButton.addEventListener("click", () => {
+		var option = document.createElement("option");
+		option.text = option.value = newDomainBox.value;
+		document.getElementById("currentDomains").add(option);
+	});
+	
+	removeButton.addEventListener("click", () => {
+		var dropdown = document.getElementById("currentDomains");
+		dropdown.remove(dropdown.selectedIndex);
+	});
+  /*getCurrentTabUrl((url) => {
     var dropdown = document.getElementById('dropdown');
 
     // Load the saved background color for this page and modify the dropdown
@@ -122,5 +148,5 @@ document.addEventListener('DOMContentLoaded', () => {
       changeBackgroundColor(dropdown.value);
       saveBackgroundColor(url, dropdown.value);
     });
-  });
+  });*/
 });
